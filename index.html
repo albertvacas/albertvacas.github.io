@@ -24,7 +24,11 @@
     min-height: 100vh;
     font-family: 'IBM Plex Mono', monospace;
     color: var(--cream);
-    background: linear-gradient(150deg, #2B2140 0%, #3B4C6B 46%, #1B3A3A 100%);
+    background:
+      radial-gradient(at 18% 22%, rgba(94,110,235,0.55), transparent 52%),
+      radial-gradient(at 82% 12%, rgba(66,163,168,0.5), transparent 55%),
+      radial-gradient(at 60% 85%, rgba(120,80,170,0.4), transparent 60%),
+      linear-gradient(165deg, #17223D 0%, #163244 55%, #0D1F2E 100%);
     background-attachment: fixed;
     display: flex;
     flex-direction: column;
@@ -32,21 +36,19 @@
     padding: 6vh 20px 120px;
   }
 
-  /* ---------- desktop icons ---------- */
   .desktop{
     width: 100%;
-    max-width: 1040px;
-    display: flex;
-    gap: 40px;
-    align-items: flex-start;
+    max-width: 860px;
   }
 
+  /* ---------- desktop icons ---------- */
   .icons{
     display: flex;
-    flex-direction: column;
-    gap: 26px;
-    padding-top: 6px;
-    flex-shrink: 0;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 22px;
+    margin-bottom: 34px;
   }
 
   .icon-btn{
@@ -57,24 +59,52 @@
     flex-direction: column;
     align-items: center;
     gap: 8px;
-    width: 68px;
+    width: 76px;
     color: var(--cream);
     font-family: 'IBM Plex Mono', monospace;
     font-size: 11px;
-    opacity: 0.88;
+    opacity: 0.9;
     transition: opacity .15s ease, transform .15s ease;
   }
 
   .icon-btn:hover{ opacity: 1; transform: translateY(-2px); }
-  .icon-btn.active{ opacity: 1; }
   .icon-btn.active span.label{ text-decoration: underline; text-underline-offset: 3px; }
 
-  .icon-btn svg{ width: 34px; height: 34px; }
+  .tile{
+    width: 52px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .tile svg{
+    width: 46px;
+    height: 40px;
+    filter: drop-shadow(0 4px 5px rgba(0,0,0,0.4));
+  }
+
+  /* left-edge sidebar layout on larger screens */
+  @media (min-width: 900px){
+    .desktop{
+      display: flex;
+      justify-content: center;
+    }
+    .icons{
+      position: fixed;
+      top: 12vh;
+      left: max(28px, 3vw);
+      flex-direction: column;
+      flex-wrap: nowrap;
+      margin-bottom: 0;
+      gap: 26px;
+      z-index: 5;
+    }
+  }
 
   /* ---------- window ---------- */
   .window{
-    flex: 1;
-    min-width: 0;
+    width: 100%;
     background: var(--ink);
     border: 1px solid var(--line);
     border-radius: 10px;
@@ -246,9 +276,10 @@
   .dock svg{ width: 19px; height: 19px; }
 
   @media (max-width: 640px){
-    .desktop{ flex-direction: column; }
-    .icons{ flex-direction: row; flex-wrap: wrap; padding-top: 0; }
     .screen{ padding: 40px 22px; }
+    .icon-btn{ width: 64px; }
+    .tile{ width: 44px; height: 38px; }
+    .tile svg{ width: 38px; height: 34px; }
   }
 </style>
 </head>
@@ -257,28 +288,84 @@
   <div class="desktop">
     <div class="icons">
       <button class="icon-btn" onclick="openPanel('cv')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M6 2h9l5 5v15H6z"/><path d="M15 2v5h5"/><path d="M9 13h6M9 16.5h6M9 9.5h3"/></svg>
+        <span class="tile">
+          <svg viewBox="0 0 48 40">
+            <defs>
+              <linearGradient id="pageGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#FFFFFF"/>
+                <stop offset="100%" stop-color="#E4E4E4"/>
+              </linearGradient>
+            </defs>
+            <path d="M11 2h16l8 8v27a1.5 1.5 0 0 1-1.5 1.5h-22.5a1.5 1.5 0 0 1-1.5-1.5v-33.5a1.5 1.5 0 0 1 1.5-1.5z" fill="url(#pageGrad)" stroke="#B9B9B9" stroke-width="0.7"/>
+            <path d="M27 2v6.5a1.5 1.5 0 0 0 1.5 1.5h6.5z" fill="#CFCFCF"/>
+            <rect x="9" y="20" width="20" height="9" rx="1" fill="#D3392B"/>
+            <text x="19" y="26.6" font-family="Arial, sans-serif" font-size="7" font-weight="700" fill="#fff" text-anchor="middle">PDF</text>
+            <rect x="13.5" y="32" width="21" height="1.6" rx="0.8" fill="#D8D8D8"/>
+          </svg>
+        </span>
         <span class="label">cv.pdf</span>
       </button>
       <button class="icon-btn" onclick="openPanel('experience')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="3" y="7" width="18" height="13" rx="1.5"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M3 12h18"/></svg>
+        <span class="tile">
+          <svg viewBox="0 0 48 40">
+            <defs>
+              <linearGradient id="folderBack1" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#FFDE7A"/>
+                <stop offset="100%" stop-color="#F0A930"/>
+              </linearGradient>
+              <linearGradient id="folderFront1" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#FFE9A6"/>
+                <stop offset="100%" stop-color="#FBBB3E"/>
+              </linearGradient>
+            </defs>
+            <path d="M3 9a2 2 0 0 1 2-2h11l3 3.4h24a2 2 0 0 1 2 2V13H3z" fill="url(#folderBack1)"/>
+            <path d="M2 15.5a1.6 1.6 0 0 1 1.6-1.8h40.8A1.6 1.6 0 0 1 46 15.6l-2.4 19.6a2 2 0 0 1-2 1.8H6.4a2 2 0 0 1-2-1.8z" fill="url(#folderFront1)"/>
+            <ellipse cx="14" cy="19" rx="10" ry="3" fill="#fff" opacity="0.22"/>
+          </svg>
+        </span>
         <span class="label">experiencia</span>
       </button>
       <button class="icon-btn" onclick="openPanel('projects')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M3 6a1 1 0 0 1 1-1h5l2 2h9a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/></svg>
+        <span class="tile">
+          <svg viewBox="0 0 48 40">
+            <path d="M3 9a2 2 0 0 1 2-2h11l3 3.4h24a2 2 0 0 1 2 2V13H3z" fill="url(#folderBack1)"/>
+            <path d="M2 15.5a1.6 1.6 0 0 1 1.6-1.8h40.8A1.6 1.6 0 0 1 46 15.6l-2.4 19.6a2 2 0 0 1-2 1.8H6.4a2 2 0 0 1-2-1.8z" fill="url(#folderFront1)"/>
+            <ellipse cx="14" cy="19" rx="10" ry="3" fill="#fff" opacity="0.22"/>
+          </svg>
+        </span>
         <span class="label">proyectos</span>
       </button>
       <button class="icon-btn" onclick="openPanel('skills')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 17l6-11 6 11"/><path d="M6.5 12h7"/><path d="M15 9l5 8"/><path d="M16.5 13.5h4"/></svg>
+        <span class="tile">
+          <svg viewBox="0 0 48 40">
+            <path d="M3 9a2 2 0 0 1 2-2h11l3 3.4h24a2 2 0 0 1 2 2V13H3z" fill="url(#folderBack1)"/>
+            <path d="M2 15.5a1.6 1.6 0 0 1 1.6-1.8h40.8A1.6 1.6 0 0 1 46 15.6l-2.4 19.6a2 2 0 0 1-2 1.8H6.4a2 2 0 0 1-2-1.8z" fill="url(#folderFront1)"/>
+            <ellipse cx="14" cy="19" rx="10" ry="3" fill="#fff" opacity="0.22"/>
+          </svg>
+        </span>
         <span class="label">skills</span>
       </button>
       <button class="icon-btn" onclick="openPanel('education')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11.5V17c0 1.1 2.7 3 6 3s6-1.9 6-3v-5.5"/><path d="M22 9v6"/></svg>
+        <span class="tile">
+          <svg viewBox="0 0 48 40">
+            <path d="M3 9a2 2 0 0 1 2-2h11l3 3.4h24a2 2 0 0 1 2 2V13H3z" fill="url(#folderBack1)"/>
+            <path d="M2 15.5a1.6 1.6 0 0 1 1.6-1.8h40.8A1.6 1.6 0 0 1 46 15.6l-2.4 19.6a2 2 0 0 1-2 1.8H6.4a2 2 0 0 1-2-1.8z" fill="url(#folderFront1)"/>
+            <ellipse cx="14" cy="19" rx="10" ry="3" fill="#fff" opacity="0.22"/>
+          </svg>
+        </span>
         <span class="label">estudios</span>
       </button>
       <button class="icon-btn" onclick="openPanel('about')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="12" cy="8" r="3.4"/><path d="M4.5 20c1.3-4 4-6 7.5-6s6.2 2 7.5 6"/></svg>
-        <span class="label">sobre mí</span>
+        <span class="tile">
+          <svg viewBox="0 0 48 40">
+            <path d="M11 2h16l8 8v27a1.5 1.5 0 0 1-1.5 1.5h-22.5a1.5 1.5 0 0 1-1.5-1.5v-33.5a1.5 1.5 0 0 1 1.5-1.5z" fill="url(#pageGrad)" stroke="#B9B9B9" stroke-width="0.7"/>
+            <path d="M27 2v6.5a1.5 1.5 0 0 0 1.5 1.5h6.5z" fill="#CFCFCF"/>
+            <rect x="9" y="20" width="16" height="9" rx="1" fill="#3E6FD9"/>
+            <text x="17" y="26.6" font-family="Arial, sans-serif" font-size="7" font-weight="700" fill="#fff" text-anchor="middle">MD</text>
+            <rect x="13.5" y="32" width="21" height="1.6" rx="0.8" fill="#D8D8D8"/>
+          </svg>
+        </span>
+        <span class="label">sobre-mi.MD</span>
       </button>
     </div>
 
@@ -352,7 +439,7 @@
         <div class="panel" id="panel-about">
           <div class="kicker">SOBRE MÍ</div>
           <p>Terminé Ingeniería Informática en la UAB en 2026. Durante mis prácticas en NTT Data trabajé en proyectos reales de transformación de datos y automatización de procesos, y en paralelo desarrollé mi TFG: una plataforma completa de gestión de incidencias para campus universitarios.</p>
-          <p style="margin-top:14px;">Me interesa la parte donde el dato se convierte en decisión: pipelines, modelos y sistemas que alguien usa de verdad.</p>
+          <p style="margin-top:14px;">Me interesa cómo se diseñan, despliegan y mantienen los sistemas de principio a fin — desde la infraestructura y la nube hasta la seguridad y el dato. Sigo abierto a explorar en qué especializarme: cloud, DevOps, arquitectura de sistemas, ciberseguridad o ingeniería de datos.</p>
         </div>
 
       </div>
